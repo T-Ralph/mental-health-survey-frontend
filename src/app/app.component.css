@@ -1,0 +1,27 @@
+mat-card {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+mat-form-field,
+.slider-container {
+  display: block;
+  margin-bottom: 15px;
+}
+
+mat-slider {
+  display: block;
+}
+
+.slider-container label {
+  display: block;
+}
+
+.slider-container p {
+  margin-top: 10px;
+}
