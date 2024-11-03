@@ -7,12 +7,19 @@ import { Survey } from '../models/survey.model';
   providedIn: 'root'
 })
 export class SurveyService {
-  private apiUrl = 'http://localhost:3000/surveys';
+  private surveyUrl = 'http://localhost:3000/surveys';
+  private analysisUrl = 'http://localhost:3000/analysis';
 
   constructor(private http: HttpClient) {}
 
   submitSurvey(survey: Survey): Observable<Survey> {
-    return this.http.post<Survey>(this.apiUrl, survey).pipe(
+    return this.http.post<Survey>(this.surveyUrl, survey).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getAnalysis(): Observable<{ count: number, average: number }> {
+    return this.http.get<{ count: number, average: number }>(this.analysisUrl).pipe(
       catchError(this.handleError)
     );
   }

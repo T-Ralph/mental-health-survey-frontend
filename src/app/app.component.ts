@@ -13,6 +13,9 @@ export class AppComponent {
   isLoading = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  surveyCount: number = 0;
+  averageStress: number = 0;
+  analysisErrorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private surveyService: SurveyService) {
     this.surveyForm = this.fb.group({
@@ -20,6 +23,10 @@ export class AppComponent {
       stress: [3, [Validators.required, Validators.min(1), Validators.max(5)]],
       comments: [''],
     });
+  }
+
+  ngOnInit(): void {
+    this.loadAnalysis();
   }
 
   onSubmit(): void {
@@ -41,12 +48,25 @@ export class AppComponent {
         this.successMessage = 'Survey submitted successfully!';
         this.surveyForm.reset();
         this.surveyForm.get('feeling')?.setErrors(null);
+        this.loadAnalysis();
       },
       error: (error) => {
         this.errorMessage = 'An error occurred: ' + error.message;
       },
       complete: () => {
         this.isLoading = false;
+      }
+    });
+  }
+
+  loadAnalysis(): void {
+    this.surveyService.getAnalysis().subscribe({
+      next: (data) => {
+        this.surveyCount = data.count;
+        this.averageStress = parseFloat(data.average.toFixed(2));
+      },
+      error: (error) => {
+        this.analysisErrorMessage = 'An error occurred: ' + error.message;
       }
     });
   }

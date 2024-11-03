@@ -1,39 +1,52 @@
-<mat-card>
-  <h2>Mental Health Survey</h2>
-  <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
-      <mat-label>How are you feeling today?</mat-label>
-      <input matInput formControlName="feeling" placeholder="e.g., Good, Okay, Bad" />
-      <mat-error *ngIf="surveyForm.get('feeling')?.hasError('required')">
-        Feeling is required
-      </mat-error>
-    </mat-form-field>
+<div class="survey-container">
+  <mat-card class="survey-form-card">
+    <h2>Mental Health Survey</h2>
+    <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>How are you feeling today?</mat-label>
+        <input matInput formControlName="feeling" placeholder="e.g., Good, Okay, Bad" />
+        <mat-error *ngIf="surveyForm.get('feeling')?.hasError('required')">
+          Feeling is required
+        </mat-error>
+      </mat-form-field>
 
-    <div class="stress-slider">
-      <label>Rate your stress level from 1-5</label>
-      <mat-slider
-        min="1"
-        max="5"
-        step="1"
-        tickInterval="1"
-        thumbLabel
-        showTickMarks
-        discrete>
-        <input formControlName="stress" matSliderThumb>
-      </mat-slider>
+      <div class="stress-slider">
+        <label>Rate your stress level from 1-5</label>
+        <mat-slider
+          min="1"
+          max="5"
+          step="1"
+          tickInterval="1"
+          thumbLabel
+          showTickMarks
+          discrete>
+          <input formControlName="stress" matSliderThumb>
+        </mat-slider>
+      </div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Any additional comments?</mat-label>
+        <textarea matInput formControlName="comments" placeholder="Add any additional comments"></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="!surveyForm.valid || isLoading">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <span *ngIf="!isLoading">Submit</span>
+      </button>
+      
+      <div *ngIf="successMessage" style="color: green;">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</div>
+    </form>
+  </mat-card>
+
+  <mat-card class="analysis-card">
+    <h2>Survey Analysis</h2>
+    <div class="analysis-item">
+      <p class="average-stress">Average Stress: <strong>{{ averageStress }}</strong></p>
     </div>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Any additional comments?</mat-label>
-      <textarea matInput formControlName="comments" placeholder="Add any additional comments"></textarea>
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit" [disabled]="!surveyForm.valid || isLoading">
-      <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-      <span *ngIf="!isLoading">Submit</span>
-    </button>
-    
-    <div *ngIf="successMessage" style="color: green;">{{ successMessage }}</div>
-    <div *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</div>
-  </form>
-</mat-card>
+    <div class="analysis-item">
+      <p class="total-surveys">Total Surveys: {{ surveyCount }}</p>
+    </div>
+    <div *ngIf="analysisErrorMessage" style="color: red;">{{ analysisErrorMessage }}</div>
+  </mat-card>
+</div>

@@ -25,3 +25,32 @@ mat-slider {
 .slider-container p {
   margin-top: 10px;
 }
+
+.survey-container {
+  display: flex;
+  gap: 20px;
+}
+
+.survey-form-card, .analysis-card {
+  flex: 1;
+}
+
+.analysis-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.analysis-item {
+  margin-bottom: 10px;
+}
+
+.average-stress {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.total-surveys {
+  font-size: 1rem;
+  color: #555;
+}

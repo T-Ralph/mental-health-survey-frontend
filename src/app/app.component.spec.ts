@@ -72,13 +72,15 @@ describe('AppComponent', () => {
     expect(submitButton.disabled).toBeFalsy();
   });
 
-  it('should show a success message after successful submission', () => {
+  it('should show a success message after successful submission and reload analysis', () => {
     const mockSurvey = {
       feeling: 'Good',
       stress: 3,
       comments: 'Feeling great'
     };
     spyOn(surveyService, 'submitSurvey').and.returnValue(of(mockSurvey));
+    spyOn(component, 'loadAnalysis').and.callThrough();
+    spyOn(surveyService, 'getAnalysis').and.returnValue(of({ count: 5, average: 3.4 }));
 
     component.surveyForm.setValue(mockSurvey);
     component.onSubmit();
@@ -87,6 +89,9 @@ describe('AppComponent', () => {
     expect(component.successMessage).toBe('Survey submitted successfully!');
     expect(component.isLoading).toBeFalse();
     expect(component.errorMessage).toBeNull();
+    expect(component.loadAnalysis).toHaveBeenCalled();
+    expect(component.surveyCount).toBe(5);
+    expect(component.averageStress).toBe(3.4);
   });
 
   it('should show an error message if submission fails', () => {
@@ -123,5 +128,22 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     expect(component.surveyForm.reset).toHaveBeenCalledOnceWith();
+  });
+
+  it('should load analysis data on initialization', () => {
+    spyOn(surveyService, 'getAnalysis').and.returnValue(of({ count: 10, average: 2.5 }));
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.surveyCount).toBe(10);
+    expect(component.averageStress).toBe(2.5);
+  });
+
+  it('should show an error message if analysis data retrieval fails', () => {
+    spyOn(surveyService, 'getAnalysis').and.returnValue(throwError(() => new Error('Analysis error')));
+    component.loadAnalysis();
+    fixture.detectChanges();
+
+    expect(component.analysisErrorMessage).toBe('An error occurred: Analysis error');
   });
 });
