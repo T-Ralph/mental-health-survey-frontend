@@ -37,7 +37,7 @@ describe('SurveyService', () => {
         expect(response).toEqual(mockSurvey);
       });
 
-      const req = httpMock.expectOne('http://127.0.0.1:3000/surveys');
+      const req = httpMock.expectOne('http://localhost:3000/surveys');
       expect(req.request.method).toBe('POST');
       req.flush(mockSurvey);
     });
@@ -54,7 +54,7 @@ describe('SurveyService', () => {
         }
       });
 
-      const req = httpMock.expectOne('http://127.0.0.1:3000/surveys');
+      const req = httpMock.expectOne('http://localhost:3000/surveys');
       req.error(errorEvent);
     });
 
@@ -66,7 +66,7 @@ describe('SurveyService', () => {
         }
       });
 
-      const req = httpMock.expectOne('http://127.0.0.1:3000/surveys');
+      const req = httpMock.expectOne('http://localhost:3000/surveys');
       req.flush('Internal server error', { status: 500, statusText: 'Internal Server Error' });
     });
 
@@ -79,7 +79,7 @@ describe('SurveyService', () => {
         }
       });
 
-      const req = httpMock.expectOne('http://127.0.0.1:3000/surveys');
+      const req = httpMock.expectOne('http://localhost:3000/surveys');
       req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
   });

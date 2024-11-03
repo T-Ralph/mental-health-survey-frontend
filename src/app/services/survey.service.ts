@@ -7,7 +7,7 @@ import { Survey } from '../models/survey.model';
   providedIn: 'root'
 })
 export class SurveyService {
-  private apiUrl = 'http://127.0.0.1:3000/surveys';
+  private apiUrl = 'http://localhost:3000/surveys';
 
   constructor(private http: HttpClient) {}
 
