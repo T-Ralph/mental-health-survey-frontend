@@ -2,6 +2,18 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
 
+## Docker Setup
+
+1. Build
+```bash
+docker build -t mental-health-survey-frontend .
+```
+
+2. Run
+```bash
+docker run -d -p 4200:80 mental-health-survey-frontend
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
@@ -25,9 +37,3 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-
-## Docker Build
-`docker build -t mental-health-survey-frontend .`
-
-## Docker Run
-`docker run -d -p 4200:80 mental-health-survey-frontend`
